@@ -1,5 +1,5 @@
 """Universal-variable two-body tools (Stumpff functions and Kepler propagation)."""
-import math
+import math #provides standard mathematical functions
 
 import numpy as np
 
