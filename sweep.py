@@ -1,4 +1,3 @@
-
 """Sweep departure date x time-of-flight, solving Lambert's problem for every pair."""
 
 import math
