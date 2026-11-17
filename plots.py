@@ -10,16 +10,16 @@ from config import AU, MU_SUN
 from kepler import orbit_period, propagate
 
 
-def porkchop(result, best, path):
+def porkchop(result, best, path): #result is the object holding the search grid
     """Departure date vs arrival date, filled by total delta-v, with travel-time lines."""
-    i_best, j_best = best
-    dep = mdates.date2num(result.dep_dates)[:, None] + 0 * result.tofs[None, :]
+    i_best, j_best = best # searches through grid and returns best i,j index
+    dep = mdates.date2num(result.dep_dates)[:, None] + 0 * result.tofs[None, :] # time of flights (tofs), converts dates back into numbers and makes a 2D array using broadcasting. 
     arr = dep + result.tofs[None, :]
-    dv = np.ma.masked_invalid(result.dv_total)
+    dv = np.ma.masked_invalid(result.dv_total) # invalid transfers masked as NaN, hides these invalid transfers. 
 
     fig, ax = plt.subplots(figsize=(10, 7))
     levels = np.linspace(np.nanmin(dv), np.nanmin(dv) + 6, 25)
-    cf = ax.contourf(dep, arr, dv, levels=levels, cmap="viridis_r", extend="max")
+    cf = ax.contourf(dep, arr, dv, levels=levels, cmap="viridis_r", extend="max") # ensures colors are filled evenly for distribution 
     cs = ax.contour(dep, arr, dv, levels=levels[::3], colors="k", linewidths=0.5)
     ax.clabel(cs, fmt="%.1f", fontsize=7)
     tof_lines = ax.contour(dep, arr, np.broadcast_to(result.tofs, dep.shape),
