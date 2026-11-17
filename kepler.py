@@ -5,6 +5,8 @@ import numpy as np #Imports NumPy for vector and linear algebra operations
 
 
 def stumpff_c(z): #Stumpff function is a special mathematical function used in orbital mechanics to make one set of equations work for elliptical, parabolic, and hyperbolic orbits.
+    #helps calculate position-related terms
+    #behaves somewhat like a generalized cosine term in the orbital equations
     if z > 1e-6: #Elliptic orbit case: z positive 
         return (1 - math.cos(math.sqrt(z))) / z
     if z < -1e-6: #Hyperbolic orbit case: z negative 
@@ -12,7 +14,8 @@ def stumpff_c(z): #Stumpff function is a special mathematical function used in o
     return 0.5 - z / 24
 
 
-def stumpff_s(z):
+def stumpff_s(z): #helps calculate time and motion-related terms
+    #behaves somewhat like a generalized sine term in the orbital equations
     if z > 1e-6: #Elliptic orbit case
         s = math.sqrt(z)
         return (s - math.sin(s)) / s ** 3
@@ -22,7 +25,7 @@ def stumpff_s(z):
     return 1 / 6 - z / 120
 
 
-def propagate(r0, v0, dt, mu):
+def propagate(r0, v0, dt, mu): #Propagates a spacecraft's position and velocity forward in time under a two-body gravitational model
     """Advance a state (r0, v0) by dt seconds along its Kepler orbit."""
     r0n = np.linalg.norm(r0) #Initial distance from central body 
     vr0 = np.dot(r0, v0) / r0n #Initial radial velocity
